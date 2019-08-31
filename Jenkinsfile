@@ -5,23 +5,23 @@ node {
      
     }
    stage('Build') {
-    withMaven(jdk: 'JDK-1.8', maven: 'Maven-3.6.1') {
+    withMaven(jdk: 'jdk-1.8', maven: 'Maven-3.6.1') {
       sh 'mvn clean compile'
       }
     }
    stage('Unit Test run') {
-    withMaven(jdk: 'JDK-1.8', maven: 'Maven-3.6.1') {
+    withMaven(jdk: 'jdk-1.8', maven: 'Maven-3.6.1') {
      sh 'mvn test'
       } 
     }
    stage('Sonarqube analysis'){
-     withMaven(jdk: 'JDK-1.8', maven: 'Maven-3.6.1') {
-      sh 'mvn org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar' +
-             ' -Dsonar.host.url=https://sonarcloud.io '+
-             ' -Dsonar.organization=itrainjaquar '+ 
-             ' -Dsonar.login=20fdaa406963ab00719d979d512a587c9207c8a7 '   
-        
-     }  
+     withMaven(jdk: 'jdk-1.8', maven: 'Maven-3.6.1') {
+      mvn sonar:sonar \
+         -Dsonar.projectKey=maven-example1 \
+         -Dsonar.organization=shilpa-sonar \
+         -Dsonar.host.url=https://sonarcloud.io \
+         -Dsonar.login=3a4c9934c43888414f3db11f76d82669308ecd8a   
+       }  
     }
   stage("Quality Gate"){
           
